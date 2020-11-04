@@ -1,9 +1,13 @@
 import java.util.*;
 public class Main {
   public static void main(String[] args) {
-     FileInput f = new FileInput();
-     Sudoku s = new Sudoku(f.readFile());
-     s.solve();
-     s.printBoard();
+    //Scanner scan = new Scanner(System.in);
+    FileInput f = new FileInput();
+    Sudoku s = new Sudoku(f.readFile());
+    //scan.nextLine();
+    //s.solve();
+    
+    //s.printBoard();
+    
   }
 }

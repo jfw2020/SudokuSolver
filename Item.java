@@ -21,4 +21,8 @@ public class Item {
     return ID;
   }
   
+  public String toString() {
+    return value + "";
+  }
+  
 }
