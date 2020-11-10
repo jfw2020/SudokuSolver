@@ -5,9 +5,11 @@ public class Main {
     FileInput f = new FileInput();
     Sudoku s = new Sudoku(f.readFile());
     //scan.nextLine();
+    //s.printAll();
     //s.solve();
-    
-    //s.printBoard();
-    
+    //s.printAll();
+    s.printBoard();
+    //s.printItemsAndPositions();
+    //s.printIsValid();
   }
 }

@@ -20,20 +20,44 @@ public class Sudoku {
       }
     }
     
-    // Create Column Objects
-    /*
-    int c = 0;
-    for(Row r: rows) {
-      for(int i = 0; i < 9; i++) {
-        
+    // Create Box Objects
+    int start = 0;
+    int counter = 0; // Box Number (0 through 8)
+    while(start < (9*7)) {
+      ArrayList<Item> temp = new ArrayList<>();
+      for(int n = start; n < start + (9*3); n+= 9) {
+        for(int j = 0; j < 3; j++) {
+          temp.add(list[n+j]);
+        }
       }
-      c++;
+      // counter = box num @ this point
+      boxes[counter] = new Box(temp);
+      if(start == 6 || start == 33) {
+        start += 21;
+      } else {
+        start += 3;
+      }
+      counter++;
+    } // end while
+    
+    // Create Columns
+    for(int i = 0; i < 9; i ++) {
+      Item[] temp = new Item[9];
+      for(int j = i; j < 81; j += 9) {
+        temp[(int)(j/9)] = list[j];
+      }
+      columns[i] = new Column(temp);
+      // i % 9 = column number
     }
-    */
   }
   
   public void solve() {
-    
+    Random rand = new Random();
+    for(int i = 0; i < 1; i++) {
+      int index = rand.nextInt(81);
+      int val = rand.nextInt(10);
+      list[index].setVal(val);
+    }
   }
   
   public void printBoard() {
@@ -64,6 +88,62 @@ public class Sudoku {
     }
   }
   
+  // Testing Purposes
+  public void printAll() {
+    this.printBoard();
+    System.out.println("\n\nRows: ");
+    for(Row r: rows) {
+      System.out.println(r);
+    }
+    this.printBoard();
+    System.out.println("\n\nColumns: ");
+    for(Column r: columns) {
+      System.out.println(r);
+    }
+    this.printBoard();
+    System.out.println("\n\nBoxes: ");
+    for(Box r: boxes) {
+      System.out.println(r);
+    }
+  }
+  
+  //Testing contains methods
+  public void printCheckVal(int val) {
+    System.out.println("\n\nRows that contain " + val);
+    for(int i = 0; i < 9; i++) {
+      System.out.print(rows[i].contains(val) + " ");
+    }
+    System.out.println("\n\nColumns that contain " + val);
+    for(int i = 0; i < 9; i++) {
+      System.out.print(columns[i].contains(val) + " ");
+    }
+    System.out.println("\n\nBoxes that contain " + val);
+    for(int i = 0; i < 9; i++) {
+      System.out.print(boxes[i].contains(val) + " ");
+    }
+  }
+  
+  public void printIsValid() {
+    System.out.println("\n\nRows that are valid");
+    for(int i = 0; i < 9; i++) {
+      System.out.print(rows[i].isValid() + " ");
+    }
+    System.out.println("\n\nColumns that are valid");
+    for(int i = 0; i < 9; i++) {
+      System.out.print(columns[i].isValid() + " ");
+    }
+    System.out.println("\n\nBoxes that are valid");
+    for(int i = 0; i < 9; i++) {
+      System.out.print(boxes[i].isValid() + " ");
+    }
+  } 
+  
+  public void printItemsAndPositions() {
+    for(Item i: list) {
+      System.out.println(i + ": " + i.getPosArr());
+    }
+  }
+  
   private Item[] createSubArray(int start) {
     Item[] temp = new Item[9];
     int c = 0;
@@ -73,5 +153,4 @@ public class Sudoku {
     }
     return temp;
   }
-  
 }
