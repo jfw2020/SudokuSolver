@@ -1,3 +1,8 @@
+/* Add Iteration counter to cmd line argumentss
+ * 
+ * 
+ * 
+ */
 import java.util.*;
 import java.io.*;
 public class Sudoku {
@@ -5,8 +10,11 @@ public class Sudoku {
   private Column[] columns = new Column[9];
   private Row[] rows = new Row[9];
   private Box[] boxes = new Box[9];
+  private int counter = 0;
+  private int iterationsPerDisplay;
   
-  public Sudoku(Item[] vals) {
+  public Sudoku(Item[] vals, int iterationBreak) {
+    iterationsPerDisplay = iterationBreak;
     for(int i = 0; i < vals.length; i++) {
       list[i] = vals[i];
     }
@@ -51,13 +59,30 @@ public class Sudoku {
     }
   }
   
-  public void solve() {
-    Random rand = new Random();
-    for(int i = 0; i < 1; i++) {
-      int index = rand.nextInt(81);
-      int val = rand.nextInt(10);
-      list[index].setVal(val);
+  public boolean solve() {
+    counter++;
+    if(counter % iterationsPerDisplay == 0) {
+      this.printBoard();
     }
+    int numUnsolved = this.countUnsolvedItems();
+
+    while(numUnsolved > 0) {
+      Item temp = findNextItem();
+      for(int i = 1; i < 10; i++) {
+        if(this.isPotentialSolution(i, temp)) {
+          temp.setVal(i);
+          
+          if(this.solve()){
+            return true;
+          } else {
+            temp.setVal(0);
+          }
+        }
+      }
+      return false;
+      
+    }
+    return true;
   }
   
   public void printBoard() {
@@ -71,7 +96,7 @@ public class Sudoku {
       else
         Runtime.getRuntime().exec("clear");
     } catch (IOException ex){} catch (InterruptedException ex) {}
-    
+    System.out.println("Iterations: " + counter);
     System.out.println("-------------------------");
     for(int i = 0; i < 9; i++) {
       System.out.print("| ");
@@ -107,7 +132,7 @@ public class Sudoku {
     }
   }
   
-  //Testing contains methods
+  // Testing contains methods
   public void printCheckVal(int val) {
     System.out.println("\n\nRows that contain " + val);
     for(int i = 0; i < 9; i++) {
@@ -138,6 +163,7 @@ public class Sudoku {
     }
   } 
   
+  // For Testing Purposes
   public void printItemsAndPositions() {
     for(Item i: list) {
       System.out.println(i + ": " + i.getPosArr());
@@ -152,5 +178,30 @@ public class Sudoku {
       c++;
     }
     return temp;
+  }
+  
+  private int countUnsolvedItems() {
+    int count = 0;
+    for(int i = 0; i < list.length; i++) {
+      if(list[i].getVal() == 0) {
+        count++;
+      }
+    }
+    return count;
+  }
+  
+  private Item findNextItem() {
+    for(Item i: list) {
+      if(i.getVal() == 0) {
+        return i;
+      }
+    }
+    // should never get here ******
+    System.out.println("ERROR");
+    return new Item(0);
+  }
+  
+  private boolean isPotentialSolution(int i, Item item) {
+    return !rows[item.getRow()].contains(i) && !columns[item.getColumn()].contains(i) && !boxes[item.getBox()].contains(i);
   }
 }

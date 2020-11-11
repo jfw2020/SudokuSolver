@@ -38,4 +38,5 @@ public class Row {
   public boolean isValid() {
     return this.contains(1) && this.contains(2) && this.contains(3) && this.contains(4) && this.contains(5) && this.contains(6) && this.contains(7) && this.contains(8) && this.contains(9);
   }
+ 
 }

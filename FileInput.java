@@ -12,8 +12,11 @@ public class FileInput {
       try {
         System.out.print("Enter filename for input: ");
         filename = scan.nextLine();
+        try {
         if(!filename.substring(filename.length()-4).equals(".txt")) {
           throw new IllegalArgumentException();
+        }
+        } catch (StringIndexOutOfBoundsException ex) {
         }
         inFile = new Scanner(new File(filename));
         valid = true;
