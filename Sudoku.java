@@ -1,8 +1,4 @@
-/* Add Iteration counter to cmd line argumentss
- * 
- * 
- * 
- */
+
 import java.util.*;
 import java.io.*;
 public class Sudoku {
@@ -12,6 +8,7 @@ public class Sudoku {
   private Box[] boxes = new Box[9];
   private int counter = 0;
   private int iterationsPerDisplay;
+  public boolean isPossible = true;
   
   public Sudoku(Item[] vals, int iterationBreak) {
     iterationsPerDisplay = iterationBreak;
@@ -57,12 +54,38 @@ public class Sudoku {
       columns[i] = new Column(temp);
       // i % 9 = column number
     }
+    
+    boolean columnsValid = true;
+    boolean rowsValid = true;
+    boolean boxesValid = true;
+    for(Column c: columns) {
+      if(!c.isPossible()){
+        columnsValid = false;
+        break;
+      }
+    }
+    for(Row r: rows) {
+      if(!r.isPossible()){
+        rowsValid = false;
+        break;
+      }
+    }
+    for(Box b: boxes) {
+      if(!b.isPossible()){
+        boxesValid = false;
+        break;
+      }
+    }
+    isPossible = columnsValid && boxesValid && rowsValid;
+    if(!isPossible) {
+      GUIOutput.printSolved(false);
+    }
   }
   
-  public boolean solve() {
+  public boolean solve() throws InterruptedException{
     counter++;
     if(counter % iterationsPerDisplay == 0) {
-      this.printBoard();
+      this.printBoardgui();
     }
     int numUnsolved = this.countUnsolvedItems();
 
@@ -80,10 +103,10 @@ public class Sudoku {
         }
       }
       return false;
-      
     }
     return true;
   }
+  
   
   public void printBoard() {
     /* Clears Screen
@@ -131,6 +154,11 @@ public class Sudoku {
       System.out.println(r);
     }
   }
+  
+  public void printBoardgui() throws InterruptedException {
+    GUIOutput.printBoardGUI(list, counter);
+  }
+  
   
   // Testing contains methods
   public void printCheckVal(int val) {

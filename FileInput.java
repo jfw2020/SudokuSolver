@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import javax.swing.*;
 public class FileInput {
   private Scanner inFile = null;
   private Item[] list = new Item[81];
@@ -10,20 +11,19 @@ public class FileInput {
     String filename = "";
     while(!valid) {
       try {
-        System.out.print("Enter filename for input: ");
-        filename = scan.nextLine();
+        filename = JOptionPane.showInputDialog("Enter filename for input: ");
         try {
-        if(!filename.substring(filename.length()-4).equals(".txt")) {
-          throw new IllegalArgumentException();
-        }
+          if(!filename.substring(filename.length()-4).equals(".txt")) {
+            throw new IllegalArgumentException();
+          }
         } catch (StringIndexOutOfBoundsException ex) {
         }
         inFile = new Scanner(new File(filename));
         valid = true;
       } catch(FileNotFoundException e) {
-        System.out.println("Invalid file name; file not found.");
+        JOptionPane.showMessageDialog(null, "Invalid file name; file not found.");
       } catch(IllegalArgumentException e) {
-        System.out.println("Filename must have .txt file extension");
+        JOptionPane.showMessageDialog(null, "Filename must have .txt file extension");
       }
     }
   }
@@ -36,6 +36,24 @@ public class FileInput {
       else
         list[i] = new Item(Character.getNumericValue(s.charAt(i)));
     }
+    inFile.close();
     return list;
+  }
+  
+  public int getIterations(){
+    boolean valid = false;
+    int num = 0;
+    while(!valid){
+      try{
+        num = Integer.parseInt(JOptionPane.showInputDialog("Enter how many iterations you want between each display: "));
+        if(num <= 0) {
+          throw new NumberFormatException();
+        }
+        valid = true;
+      } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(null,"Invalid input");
+      }
+    }
+    return num;
   }
 }
