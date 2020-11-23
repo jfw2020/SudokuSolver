@@ -22,6 +22,7 @@ public class GUIOutput {
       }
     }
     
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.getContentPane().removeAll();
     JTextArea ta = new JTextArea(sb.toString());
     ta.setPreferredSize(new Dimension(500, 500));
