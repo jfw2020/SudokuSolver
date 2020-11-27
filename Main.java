@@ -1,3 +1,11 @@
+/**Jacob Williams, Logan Newsom, Parker Billinger, Trey Etzel
+CIS 200 Scholar's section
+Main.java
+
+This class is contains the main method for the program. This class runs the FileInput to get the sudoku and how many steps the user
+wants to skip between display updates. Then it checks that the sudoku is possible, and if so the program goes through the steps necessary 
+to solve the sudoku puzzle. 
+*/
 import java.util.*;
 import javax.swing.*;
 import java.awt.*;
