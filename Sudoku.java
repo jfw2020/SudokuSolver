@@ -1,15 +1,27 @@
-
+/**Jacob Williams, Logan Newsom, Parker Billinger, Trey Etzel
+ * CIS 200 Scholar's section
+ * Sudoku.java
+ * 
+ * This class works as the model class, all calculations take place here. The class has many different methods that control interactions between
+ * row, colummn, box, and item classes. It also interacts with the GUIOutput class and prints the board between a set number of iterations.
+ * The solve method uses a backtracking algorithm to solve the sudoku. 
+ */
 import java.util.*;
 import java.io.*;
 public class Sudoku {
   private Item[] list = new Item[81];
-  private Column[] columns = new Column[9];
-  private Row[] rows = new Row[9];
-  private Box[] boxes = new Box[9];
-  private int counter = 0;
+  private Column[] columns = new Column[9]; // columns
+  private Row[] rows = new Row[9]; // rows
+  private Box[] boxes = new Box[9]; // boxes
+  private int counter = 0; // number iterations completed in the solving algorithm
   private int iterationsPerDisplay;
   public boolean isPossible = true;
   
+  /**Sudoku(Item[] vals, int iterationBreak)
+    * This is the constructor for a sudoku object that represents a sudoku board.
+    * @param Item[] vals this is a list of Item objects that represent each number on the board
+    * @param int iterationBreak this is the number of iterations the backtracking algorithm will complete between display updates
+    */
   public Sudoku(Item[] vals, int iterationBreak) {
     iterationsPerDisplay = iterationBreak;
     for(int i = 0; i < vals.length; i++) {
@@ -82,6 +94,9 @@ public class Sudoku {
     }
   }
   
+  /**solve()
+    * This is the solve method that uses backtracking to solve the sudoku. It prints the board between a set number of iterations
+    */
   public boolean solve() throws InterruptedException{
     counter++;
     if(counter % iterationsPerDisplay == 0) {
@@ -107,10 +122,13 @@ public class Sudoku {
     return true;
   }
   
-  
+  /**printBoard()
+    * This is the non-GUI printboard method. It is not used in the most recent version of this program.
+    * It uses console output for printing the sudoku.
+    */
   public void printBoard() {
     /* Clears Screen
-     * Code Sourced from stack overflow user Ankush Mundhra
+     * Clear screen code Sourced from stack overflow user Ankush Mundhra
      * https://stackoverflow.com/questions/19252496/clear-screen-with-windows-cls-command-in-java-console-application
      */
     try {
@@ -136,7 +154,11 @@ public class Sudoku {
     }
   }
   
-  // Testing Purposes
+  // TESTING PURPOSES ONLY
+  /**printAll()
+    * TESTING PURPOSES ONLY
+    * This prints out all the values of the rows, columns, and boxes
+    */
   public void printAll() {
     this.printBoard();
     System.out.println("\n\nRows: ");
@@ -160,7 +182,11 @@ public class Sudoku {
   }
   
   
-  // Testing contains methods
+  // TESTING PURPOSES ONLY
+  /**printAll()
+    * TESTING PURPOSES ONLY
+    * tests the Contains() methods for rows, colunns, and boxes
+    */
   public void printCheckVal(int val) {
     System.out.println("\n\nRows that contain " + val);
     for(int i = 0; i < 9; i++) {
@@ -176,6 +202,11 @@ public class Sudoku {
     }
   }
   
+  // TESTING PURPOSES ONLY
+  /**printAll()
+    * TESTING PURPOSES ONLY
+    * This prints out all of the rows, columns, and boxes that are valid
+    */
   public void printIsValid() {
     System.out.println("\n\nRows that are valid");
     for(int i = 0; i < 9; i++) {
@@ -191,13 +222,23 @@ public class Sudoku {
     }
   } 
   
-  // For Testing Purposes
+  // TESTING PURPOSES ONLY
+  /**printAll()
+    * TESTING PURPOSES ONLY
+    * This prints out all the of the items and their position on the board
+    */
   public void printItemsAndPositions() {
     for(Item i: list) {
       System.out.println(i + ": " + i.getPosArr());
     }
   }
   
+  
+  /**createSubArray()
+    * This creates a subarray of Items of length 9. This is used in the constructor for a sudoku object
+    * @param int start this is the starting index of where you want the subarray to begin
+    * @return Item[] this is a subarray of Item objects starting from the inputted start index. It is of length 9
+    */
   private Item[] createSubArray(int start) {
     Item[] temp = new Item[9];
     int c = 0;
@@ -208,6 +249,10 @@ public class Sudoku {
     return temp;
   }
   
+  /**CountUnsolvedItems()
+    * This counts the number of empty items in the sudoku board. Used in the backtracking algorithm
+    * @return int this is the number of empty items in the sudoku board.
+    */
   private int countUnsolvedItems() {
     int count = 0;
     for(int i = 0; i < list.length; i++) {
@@ -218,6 +263,10 @@ public class Sudoku {
     return count;
   }
   
+   /**findNextItem()
+    * This finds the next empty item object in the sudoku board. Used in the backtracking algorithm
+    * @return Item this is the next empty item on the board
+    */
   private Item findNextItem() {
     for(Item i: list) {
       if(i.getVal() == 0) {
@@ -229,6 +278,10 @@ public class Sudoku {
     return new Item(0);
   }
   
+   /**isPotentialSolution(int i, Item item)
+    * This checks if a number value could be a potential solution given an Item. Used in the backtracking algorithm
+    * @return boolean this is a boolean representing whether or not the number is a potential solution for a given Item object
+    */
   private boolean isPotentialSolution(int i, Item item) {
     return !rows[item.getRow()].contains(i) && !columns[item.getColumn()].contains(i) && !boxes[item.getBox()].contains(i);
   }
