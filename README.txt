@@ -3,7 +3,7 @@ Sudoku Solver
 To run this program, the user needs to run Main.java in a command-line window.
 Or use the Run.jar by double clicking it.
 
-How to use:
+How to use (Reference Project Outline for more details):
   1) Use sudoku.txt for demo or create your own text file. The only line of the text file must be 81 characters, with empty spaces represented by a period character '.'
     NOTE: to generate these sudokus, use (https://qqwing.com/generate.html) and select the output format of "One Line"
     Text file should not have any non-digit characters other than a period ('.')
